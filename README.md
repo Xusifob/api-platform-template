@@ -3,6 +3,7 @@
 [![Owner](https://badgen.net/badge/icon/xusifob/blue?icon=github&label)](https://bastienmalahieude.fr)
 [![Language](https://badgen.net/badge/icon/php/blue?icon=php&label)](https://php.net)
 [![Database](https://badgen.net/badge/icon/postgresql/blue?icon=postgresql&label)](https://www.postgresql.org/)
+[![Lint](https://badgen.net/badge/icon/reactor/blue?icon=reactor&label)](https://getrector.org/)
 [![Infrastructure](https://badgen.net/badge/icon/docker/blue?icon=docker&label)](https://www.docker.com/)
 
 This template is a skeleton for creating an [API Platform](https://api-platform.com) project.
