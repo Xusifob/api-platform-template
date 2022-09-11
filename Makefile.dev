@@ -1,0 +1,52 @@
+composer-require: ## [Development] Install a new composer package
+	docker-compose run --rm php composer require ${package}
+
+composer-require-dev: ## [Development] Install a new composer package
+	docker-compose run --rm php composer require --dev ${package}
+
+composer-install: ## [Development] Runs composer install in the container to install backend dependencies
+	docker-compose run --rm php composer install
+
+composer-update: ## [Development] Runs composer install in the container to install backend dependencies
+	docker-compose run --rm php composer update
+
+create-migration: ## [Development] Generate a doctrine migration
+	make run-command command='doctrine:migrations:diff'
+
+migrate: ## [Development] Run a doctrine migration
+	make run-command command='doctrine:migrations:migrate --verbose --no-interaction'
+
+migration-sync: ## [Development] Sync the database with the current migration versions
+	make run-command command='doctrine:migrations:version --add --all'
+
+update-schema: ## [Development] Updates the SQL schema
+	make run-command command='doctrine:schema:update --dump-sql --force'
+
+database-create: ## [Development] Updates the SQL schema
+	make run-command command='doctrine:database:create'
+
+load-fixtures: ## [Development] Loads fixtures into the database
+	make run-command command='hautelook:fixtures:load --no-interaction'
+
+clear-cache: ## [Development] Clears cache
+	make run-command command='cache:clear'
+
+run-command: ## [Development] Run a command inside docker
+	docker-compose run --rm php php bin/console ${command}
+
+make-entity: ## [Development] Create a new entity
+	make run-command command='make:entity'
+
+export-api: ## [Development] Exports the API documentation
+	make run-command command='api:openapi:export -o api.json'
+
+dump-routes: ## [Development] Lists all routes of the application
+	DOCKER_COMPOSE_ENV=dev docker-compose run --rm php php bin/console debug:router
+
+rector-dry: ## [Development] Shows you all the files that will be changed by rector
+	docker-compose run --rm php vendor/bin/rector process --dry-run
+
+rector: ## [Development] Runs rector and apply changes
+	docker-compose run --rm php vendor/bin/rector process
+
+

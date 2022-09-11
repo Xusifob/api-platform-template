@@ -1,0 +1,44 @@
+version: "3.4"
+
+services:
+  php:
+    build:
+      context: ./api
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - database
+    restart: unless-stopped
+    volumes:
+      - ./api/:/var/www/html/
+      - ./api/docker/php/000-default.conf:/etc/apache2/sites-available/000-default.conf
+
+  database:
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-api}
+      # You should definitely change the password in production
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-!ChangeMe!}
+      - POSTGRES_USER=${POSTGRES_USER:-api-platform}
+    volumes:
+      - db_data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+  
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@pgadmin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-root}
+    ports:
+      - "5051:80"
+    depends_on:
+      - database
+
+volumes:
+  ###> doctrine/doctrine-bundle ###
+  db_data:
+###< doctrine/doctrine-bundle ###
+
